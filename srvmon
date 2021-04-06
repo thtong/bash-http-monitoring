@@ -28,7 +28,7 @@ urls[www.smbc-comics.com]="https://www.smbc-comics.com"
 urls[xkcd.com]="https://xkcd.com"
 
 # The default status code. Can be overridden per URL lower in the script.
-defaultExpectedStatusCode=200
+defaultExpectedStatusCode=200,302,307
 
 # Expected code for url, key must match urls[]. Only for URL's you consider UP, but for example require authentication
 declare -A statuscode # do not remove this line
@@ -104,7 +104,7 @@ doRequest() {
     expectedStatusCode="${statuscode[${name}]}"
   fi 
 
-  if [[ ${expectedStatusCode} -eq ${checkStatusCode} ]]; then
+if [[ ${expectedStatusCode} == *${checkStatusCode}* ]]; then
     echo "${timeCheckTook}" > "${tempfolder}/OK/${name}.duration"
     # remove any previous failed check attempt
     if [[ -r "${tempfolder}/FAIL/${name}.status" ]]; then
